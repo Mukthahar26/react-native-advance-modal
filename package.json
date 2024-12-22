@@ -7,6 +7,11 @@
     "build": "rollup -c",
     "patchpublish": "npm version patch && npm publish"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mukthahar26/react-native-advance-modal.git"
+  },
+  "homepage": "https://github.com/Mukthahar26/react-native-advance-modal",
   "author": "Mukthahar Shaik",
   "license": "MIT",
   "description": "Advance customizable modal component for React Native.",
