@@ -1,0 +1,26 @@
+{
+  "name": "react-native-advance-modal",
+  "version": "1.0.3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c",
+    "patchpublish": "npm version patch && npm publish"
+  },
+  "author": "Mukthahar Shaik",
+  "license": "MIT",
+  "description": "Advance customizable modal component for React Native.",
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-native": "^0.76.3"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^12.1.1",
+    "@types/react": "^18.3.12",
+    "@types/react-native": "^0.73.0",
+    "rollup": "^2.79.2",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-terser": "^7.0.2",
+    "typescript": "^5.7.2"
+  }
+}
