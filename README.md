@@ -111,19 +111,19 @@ You can define your custom animation style using the `animationStyle` prop:
 
 ### Center Modal
 
-<img src="./src/assets/center.png" alt="Center Modal Example" width="200" />
+<img src="https://github.com/Mukthahar26/react-native-advance-modal/blob/main/src/assets/center.png?raw=true" alt="Center Modal Example" width="200" />
 
 ### Bottom Modal
 
-<img src="./src/assets/bottom.png" alt="Bottom Modal Example" width="200" />
+<img src="https://github.com/Mukthahar26/react-native-advance-modal/blob/main/src/assets/bottom.png?raw=true" alt="Bottom Modal Example" width="200" />
 
 ### Left Modal
 
-<img src="./src/assets/left.png" alt="Left Modal Example" width="200" />
+<img src="https://github.com/Mukthahar26/react-native-advance-modal/blob/main/src/assets/left.png?raw=true" alt="Left Modal Example" width="200" />
 
 ### Right Modal
 
-<img src="./src/assets/right.png" alt="Right Modal Example" width="200" />
+<img src="https://github.com/Mukthahar26/react-native-advance-modal/blob/main/src/assets/right.png?raw=true" alt="Right Modal Example" width="200" />
 
 ## Contributing
 
