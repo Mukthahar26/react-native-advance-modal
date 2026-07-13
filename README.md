@@ -1,6 +1,6 @@
-# Custom Modal for React Native
+# react-native-advance-modal
 
-A flexible and animated modal component for React Native applications. Supports multiple positions (`center`, `bottom`, `left`, `right`) and customizable animations.
+A lightweight and customizable modal component for React Native with animated transitions and support for multiple positions.
 
 ## Installation
 
@@ -14,12 +14,12 @@ yarn add react-native-advance-modal
 
 ## Usage
 
-Import and use the `CustomModal` component in your React Native project:
+Import and use the default `AdvanceModal` component in your React Native project:
 
 ```tsx
 import React, { useState } from "react";
 import { View, Button, Text, StyleSheet } from "react-native";
-import CustomModal from "react-native-advance-modal";
+import AdvanceModal from "react-native-advance-modal";
 
 const App = () => {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -27,7 +27,7 @@ const App = () => {
   return (
     <View style={styles.container}>
       <Button title="Show Modal" onPress={() => setModalVisible(true)} />
-      <CustomModal
+      <AdvanceModal
         type="center"
         visible={isModalVisible}
         onClose={() => setModalVisible(false)}
@@ -35,7 +35,7 @@ const App = () => {
         overlayStyle={styles.modalOverlay}
       >
         <Text style={styles.modalText}>Hello from the Modal!</Text>
-      </CustomModal>
+      </AdvanceModal>
     </View>
   );
 };
@@ -65,30 +65,38 @@ export default App;
 
 ## Props
 
-| Prop                | Type                                                       | Default     | Description                                                      |
-| ------------------- | ---------------------------------------------------------- | ----------- | ---------------------------------------------------------------- |
-| `type`              | `'center'\| 'bottom'\| 'right'\| 'left'`                   | `'center'`  | Determines the modal's position.                                 |
-| `visible`           | `boolean`                                                  | `false`     | Controls the visibility of the modal.                            |
-| `onClose`           | `() => void`                                               | `undefined` | Callback function triggered when the modal is closed.            |
-| `cardStyle`         | `StyleProp<ViewStyle>`                                     | `undefined` | Style for the modal's content card.                              |
-| `overlayStyle`      | `StyleProp<ViewStyle>`                                     | `undefined` | Style for the overlay background.                                |
-| `animationDuration` | `number`                                                   | `300`       | Duration (in ms) for the modal open/close animation.             |
-| `animationStyle`    | `(translateValue: Animated.Value) => StyleProp<ViewStyle>` | `undefined` | Custom animation style function for the modal's opening/closing. |
-| `children`          | `React.ReactNode`                                          | `undefined` | Content to render inside the modal.                              |
+| Prop                        | Type                                                       | Default       | Description                                                                   |
+| --------------------------- | ---------------------------------------------------------- | ------------- | ----------------------------------------------------------------------------- | --------- | -------- | --------------------------------------- |
+| `type`                      | `'center'` \\                                              | `'bottom'` \\ | `'left'` \\                                                                   | `'right'` | required | Modal position and animation direction. |
+| `visible`                   | `boolean`                                                  | required      | Controls whether the modal is visible.                                        |
+| `onClose`                   | `() => void`                                               | `undefined`   | Callback when the modal requests close.                                       |
+| `cardStyle`                 | `StyleProp<ViewStyle>`                                     | `undefined`   | Styles applied to the modal content card.                                     |
+| `overlayStyle`              | `StyleProp<ViewStyle>`                                     | `undefined`   | Styles applied to the backdrop overlay.                                       |
+| `animationDuration`         | `number`                                                   | `300`         | Animation duration in milliseconds.                                           |
+| `animationStyle`            | `(translateValue: Animated.Value) => StyleProp<ViewStyle>` | `undefined`   | Custom animation styles. Overrides the built-in animation for the modal card. |
+| `onShow`                    | `() => void`                                               | `undefined`   | Called after the modal opens.                                                 |
+| `onHide`                    | `() => void`                                               | `undefined`   | Called after the modal closes.                                                |
+| `onOverlayPress`            | `() => void`                                               | `undefined`   | Called when the backdrop overlay is pressed.                                  |
+| `shouldCloseOnClickOverlay` | `boolean`                                                  | `true`        | When `true`, pressing the overlay also calls `onClose`.                       |
+| `closeOnAndroidBackPress`   | `boolean`                                                  | `true`        | When `true`, pressing Android back triggers `onClose`.                        |
+| `testId`                    | `string`                                                   | `undefined`   | Test identifier applied to the modal and backdrop.                            |
+| `accessibilityLabel`        | `string`                                                   | `undefined`   | Accessibility label for the modal and backdrop.                               |
+| `children`                  | `React.ReactNode`                                          | required      | Content rendered inside the modal card.                                       |
 
-## Features
+## Behavior
 
-- Supports multiple modal types: `center`, `bottom`, `left`, `right`.
-- Customizable animations using `animationStyle`.
-- Overlay click to close functionality.
-- Fully customizable styles for the modal card and overlay.
+- `type="center"` uses a centered opacity transition.
+- `type="bottom"` slides the modal up from the bottom.
+- `type="left"` slides the modal in from the left.
+- `type="right"` slides the modal in from the right.
+- `animationStyle` replaces the default transform style for the modal card.
+- When `shouldCloseOnClickOverlay` is `false`, the overlay still calls `onOverlayPress` but does not close the modal.
+- On Android, `closeOnAndroidBackPress` will call `onClose` when the hardware back button is pressed while the modal is visible.
 
 ## Custom Animation Example
 
-You can define your custom animation style using the `animationStyle` prop:
-
 ```tsx
-<CustomModal
+<AdvanceModal
   type="center"
   visible={isModalVisible}
   onClose={() => setModalVisible(false)}
@@ -104,37 +112,27 @@ You can define your custom animation style using the `animationStyle` prop:
   })}
 >
   <Text>Your custom animation!</Text>
-</CustomModal>
+</AdvanceModal>
 ```
 
-## Screenshots
+## Development
 
-### Center Modal
+Build the package with TypeScript:
 
-<img src="https://github.com/Mukthahar26/react-native-advance-modal/blob/main/src/assets/center.png?raw=true" alt="Center Modal Example" width="200" />
+```bash
+npm run build
+```
 
-### Bottom Modal
+Watch source changes and publish using `yalc`:
 
-<img src="https://github.com/Mukthahar26/react-native-advance-modal/blob/main/src/assets/bottom.png?raw=true" alt="Bottom Modal Example" width="200" />
-
-### Left Modal
-
-<img src="https://github.com/Mukthahar26/react-native-advance-modal/blob/main/src/assets/left.png?raw=true" alt="Left Modal Example" width="200" />
-
-### Right Modal
-
-<img src="https://github.com/Mukthahar26/react-native-advance-modal/blob/main/src/assets/right.png?raw=true" alt="Right Modal Example" width="200" />
+```bash
+npm run watch
+```
 
 ## Contributing
 
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository.
-2. Create a feature branch: `git checkout -b feature-name`.
-3. Commit your changes: `git commit -m 'Add feature'`.
-4. Push to the branch: `git push origin feature-name`.
-5. Create a pull request.
+Contributions are welcome. Feel free to open issues or pull requests.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
+`react-native-advance-modal` is licensed under the MIT License. See [LICENSE](./LICENSE) for details.
