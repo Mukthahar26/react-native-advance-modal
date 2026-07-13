@@ -109,6 +109,8 @@ const styles = StyleSheet.create({
 </AdvanceModal>
 ```
 
+<img src="https://github.com/Mukthahar26/react-native-advance-modal/blob/main/src/assets/center.png?raw=true" alt="Center Modal Example" width="200" />
+
 ### Bottom
 
 ```tsx
@@ -116,6 +118,8 @@ const styles = StyleSheet.create({
   <Text>Bottom Modal</Text>
 </AdvanceModal>
 ```
+
+<img src="https://github.com/Mukthahar26/react-native-advance-modal/blob/main/src/assets/bottom.png?raw=true" alt="Bottom Modal Example" width="200" />
 
 ### Left
 
@@ -125,6 +129,8 @@ const styles = StyleSheet.create({
 </AdvanceModal>
 ```
 
+<img src="https://github.com/Mukthahar26/react-native-advance-modal/blob/main/src/assets/left.png?raw=true" alt="Left Modal Example" width="200" />
+
 ### Right
 
 ```tsx
@@ -132,6 +138,8 @@ const styles = StyleSheet.create({
   <Text>Right Modal</Text>
 </AdvanceModal>
 ```
+
+<img src="https://github.com/Mukthahar26/react-native-advance-modal/blob/main/src/assets/right.png?raw=true" alt="Right Modal Example" width="200" />
 
 ---
 

@@ -4,15 +4,15 @@
   "description": "A lightweight, customizable, and animated modal component for React Native.",
   "keywords": [
     "react-native",
-    "modal",
-    "popup",
-    "dialog",
-    "bottom-sheet",
-    "overlay",
-    "typescript",
-    "animation",
+    "react native modal",
     "react-native-modal",
-    "ui"
+    "modal component",
+    "animated modal",
+    "react native popup",
+    "react native dialog",
+    "bottom sheet",
+    "react native ui",
+    "typescript"
   ],
   "react-native": "dist/index.js",
   "exports": {
