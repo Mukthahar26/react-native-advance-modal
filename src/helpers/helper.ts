@@ -7,7 +7,7 @@ type ModalType = "center" | "bottom" | "right" | "left";
 export const getModalStyle = (
   type: ModalType,
   translateValue: Animated.Value,
-  animationStyle?: (translateValue: Animated.Value) => StyleProp<ViewStyle>
+  animationStyle?: (translateValue: Animated.Value) => StyleProp<ViewStyle>,
 ): {
   positionStyle: StyleProp<ViewStyle>;
   transformStyle: StyleProp<ViewStyle>;
@@ -19,11 +19,6 @@ export const getModalStyle = (
   switch (type) {
     case "center":
       positionStyle = {
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: [{ translateX: -width * 0.4 }, { translateY: -200 / 2 }],
-        width: "80%",
         minHeight: "5%",
         borderRadius: 8,
       };

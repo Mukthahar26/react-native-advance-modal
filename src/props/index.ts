@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { Animated, StyleProp, ViewStyle } from "react-native";
 
 type ModalType = "center" | "bottom" | "right" | "left";
@@ -10,5 +11,12 @@ export type CustomModalProps = {
   overlayStyle?: StyleProp<ViewStyle>;
   animationDuration?: number;
   animationStyle?: (translateValue: Animated.Value) => StyleProp<ViewStyle>;
-  children: React.ReactNode;
+  onShow?: () => void;
+  onHide?: () => void;
+  onOverlayPress?: () => void;
+  closeOnAndroidBackPress?: boolean;
+  testId?: string;
+  accessibilityLabel?: string;
+  children: ReactNode;
+  shouldCloseOnClickOverlay?: boolean;
 };

@@ -1,8 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import {Modal, Pressable, Animated} from 'react-native';
-import {getModalStyle} from '../../helpers/helper';
-import styles from './styles';
-import {CustomModalProps} from '../../props';
+import React, { useEffect, useState } from "react";
+import {
+  Modal,
+  Pressable,
+  Animated,
+  View,
+  BackHandler,
+  Platform,
+} from "react-native";
+import { getModalStyle } from "../../helpers/helper";
+import styles from "./styles";
+import { CustomModalProps } from "../../props";
 
 const CustomModal: React.FC<CustomModalProps> = ({
   type,
@@ -12,11 +19,18 @@ const CustomModal: React.FC<CustomModalProps> = ({
   overlayStyle,
   animationDuration = 300,
   animationStyle,
+  shouldCloseOnClickOverlay = true,
+  onShow,
+  onHide,
+  onOverlayPress,
+  closeOnAndroidBackPress = true,
+  testId,
+  accessibilityLabel,
   children,
 }) => {
   const [modalVisible, setModalVisible] = useState(visible);
   const translateValue = useState(new Animated.Value(0))[0];
-  const {positionStyle, transformStyle} = getModalStyle(
+  const { positionStyle, transformStyle } = getModalStyle(
     type,
     translateValue,
     animationStyle,
@@ -29,25 +43,87 @@ const CustomModal: React.FC<CustomModalProps> = ({
         toValue: 1,
         duration: animationDuration,
         useNativeDriver: true,
-      }).start();
+      }).start(() => {
+        onShow?.();
+      });
     } else {
       Animated.timing(translateValue, {
         toValue: 0,
         duration: animationDuration,
         useNativeDriver: true,
-      }).start(() => setModalVisible(false));
+      }).start(() => {
+        setModalVisible(false);
+        onHide?.();
+      });
     }
-  }, [visible, translateValue, animationDuration]);
+  }, [visible, translateValue, animationDuration, onShow, onHide]);
+
+  useEffect(() => {
+    if (Platform.OS !== "android" || !visible || !closeOnAndroidBackPress) {
+      return;
+    }
+
+    const handleBackPress = () => {
+      if (onClose) {
+        onClose();
+        return true;
+      }
+      return false;
+    };
+
+    const subscription = BackHandler.addEventListener(
+      "hardwareBackPress",
+      handleBackPress,
+    );
+
+    return () => subscription.remove();
+  }, [visible, closeOnAndroidBackPress, onClose]);
+
+  const onCloseOverlay = () => {
+    onOverlayPress?.();
+
+    if (shouldCloseOnClickOverlay && onClose) {
+      onClose();
+    }
+  };
 
   if (!modalVisible) return null;
 
   return (
-    <Modal transparent visible={modalVisible} animationType="none">
-      <Pressable style={[styles.overlay, overlayStyle]} onPress={onClose} />
-      <Animated.View
-        style={[styles.card, cardStyle, positionStyle, transformStyle]}>
-        {children}
-      </Animated.View>
+    <Modal
+      transparent
+      visible={modalVisible}
+      animationType="none"
+      onRequestClose={() => {
+        if (closeOnAndroidBackPress) {
+          onClose?.();
+        }
+      }}
+      testID={testId}
+      accessibilityLabel={accessibilityLabel}
+    >
+      <Pressable
+        style={[styles.overlay, overlayStyle]}
+        onPress={onCloseOverlay}
+        testID={testId ? `${testId}-backdrop` : undefined}
+        accessibilityLabel={accessibilityLabel}
+      />
+
+      {type === "center" ? (
+        <View style={styles.centerContainer}>
+          <Animated.View
+            style={[styles.card, positionStyle, transformStyle, cardStyle]}
+          >
+            {children}
+          </Animated.View>
+        </View>
+      ) : (
+        <Animated.View
+          style={[styles.card, positionStyle, transformStyle, cardStyle]}
+        >
+          {children}
+        </Animated.View>
+      )}
     </Modal>
   );
 };

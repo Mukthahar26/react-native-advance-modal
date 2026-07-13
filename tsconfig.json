@@ -1,13 +1,18 @@
 {
   "compilerOptions": {
     "outDir": "./dist",
-    "target": "ES5",
-    "module": "ESNext",
+    "target": "ES2017",
+    "module": "CommonJS",
     "jsx": "react",
     "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
     "allowJs": true,
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "rootDir": "."
   },
-  "include": ["src/**/*", "index.js"]
+  "include": ["src/**/*", "index.ts"]
 }
