@@ -170,22 +170,6 @@ const styles = StyleSheet.create({
 
 ---
 
-## Development
-
-Build the package:
-
-```bash
-npm run build
-```
-
-Watch for changes:
-
-```bash
-npm run watch
-```
-
----
-
 ## Contributing
 
 Contributions, issues, and feature requests are welcome.
