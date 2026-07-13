@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {Modal, Pressable, Animated} from 'react-native';
-import {getModalStyle} from '../../helpers/helper';
-import styles from './styles';
-import {CustomModalProps} from '../../props';
+import React, { Fragment, useEffect, useState } from "react";
+import { Modal, Pressable, Animated, View, Text } from "react-native";
+import { getModalStyle } from "../../helpers/helper";
+import styles from "./styles";
+import { CustomModalProps } from "../../props";
 
 const CustomModal: React.FC<CustomModalProps> = ({
   type,
@@ -12,11 +12,12 @@ const CustomModal: React.FC<CustomModalProps> = ({
   overlayStyle,
   animationDuration = 300,
   animationStyle,
+  shouldCloseOnClickOverlay = true,
   children,
 }) => {
   const [modalVisible, setModalVisible] = useState(visible);
   const translateValue = useState(new Animated.Value(0))[0];
-  const {positionStyle, transformStyle} = getModalStyle(
+  const { positionStyle, transformStyle } = getModalStyle(
     type,
     translateValue,
     animationStyle,
@@ -39,15 +40,34 @@ const CustomModal: React.FC<CustomModalProps> = ({
     }
   }, [visible, translateValue, animationDuration]);
 
+  const onCloseOVerlay = () => {
+    if (shouldCloseOnClickOverlay && onClose) onClose();
+  };
+
   if (!modalVisible) return null;
 
   return (
     <Modal transparent visible={modalVisible} animationType="none">
-      <Pressable style={[styles.overlay, overlayStyle]} onPress={onClose} />
-      <Animated.View
-        style={[styles.card, cardStyle, positionStyle, transformStyle]}>
-        {children}
-      </Animated.View>
+      <Pressable
+        style={[styles.overlay, overlayStyle]}
+        onPress={onCloseOVerlay}
+      />
+
+      {type === "center" ? (
+        <View style={styles.centerContainer}>
+          <Animated.View
+            style={[styles.card, positionStyle, transformStyle, cardStyle]}
+          >
+            {children}
+          </Animated.View>
+        </View>
+      ) : (
+        <Animated.View
+          style={[styles.card, positionStyle, transformStyle, cardStyle]}
+        >
+          {children}
+        </Animated.View>
+      )}
     </Modal>
   );
 };
