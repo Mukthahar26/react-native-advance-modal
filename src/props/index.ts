@@ -11,5 +11,12 @@ export type CustomModalProps = {
   overlayStyle?: StyleProp<ViewStyle>;
   animationDuration?: number;
   animationStyle?: (translateValue: Animated.Value) => StyleProp<ViewStyle>;
+  onShow?: () => void;
+  onHide?: () => void;
+  onOverlayPress?: () => void;
+  closeOnAndroidBackPress?: boolean;
+  testId?: string;
+  accessibilityLabel?: string;
   children: ReactNode;
+  shouldCloseOnClickOverlay?: boolean;
 };

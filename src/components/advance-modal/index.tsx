@@ -1,5 +1,12 @@
-import React, { Fragment, useEffect, useState } from "react";
-import { Modal, Pressable, Animated, View, Text } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  Modal,
+  Pressable,
+  Animated,
+  View,
+  BackHandler,
+  Platform,
+} from "react-native";
 import { getModalStyle } from "../../helpers/helper";
 import styles from "./styles";
 import { CustomModalProps } from "../../props";
@@ -13,6 +20,12 @@ const CustomModal: React.FC<CustomModalProps> = ({
   animationDuration = 300,
   animationStyle,
   shouldCloseOnClickOverlay = true,
+  onShow,
+  onHide,
+  onOverlayPress,
+  closeOnAndroidBackPress = true,
+  testId,
+  accessibilityLabel,
   children,
 }) => {
   const [modalVisible, setModalVisible] = useState(visible);
@@ -30,27 +43,70 @@ const CustomModal: React.FC<CustomModalProps> = ({
         toValue: 1,
         duration: animationDuration,
         useNativeDriver: true,
-      }).start();
+      }).start(() => {
+        onShow?.();
+      });
     } else {
       Animated.timing(translateValue, {
         toValue: 0,
         duration: animationDuration,
         useNativeDriver: true,
-      }).start(() => setModalVisible(false));
+      }).start(() => {
+        setModalVisible(false);
+        onHide?.();
+      });
     }
-  }, [visible, translateValue, animationDuration]);
+  }, [visible, translateValue, animationDuration, onShow, onHide]);
 
-  const onCloseOVerlay = () => {
-    if (shouldCloseOnClickOverlay && onClose) onClose();
+  useEffect(() => {
+    if (Platform.OS !== "android" || !visible || !closeOnAndroidBackPress) {
+      return;
+    }
+
+    const handleBackPress = () => {
+      if (onClose) {
+        onClose();
+        return true;
+      }
+      return false;
+    };
+
+    const subscription = BackHandler.addEventListener(
+      "hardwareBackPress",
+      handleBackPress,
+    );
+
+    return () => subscription.remove();
+  }, [visible, closeOnAndroidBackPress, onClose]);
+
+  const onCloseOverlay = () => {
+    onOverlayPress?.();
+
+    if (shouldCloseOnClickOverlay && onClose) {
+      onClose();
+    }
   };
 
   if (!modalVisible) return null;
 
   return (
-    <Modal transparent visible={modalVisible} animationType="none">
+    <Modal
+      transparent
+      visible={modalVisible}
+      animationType="none"
+      onRequestClose={() => {
+        if (closeOnAndroidBackPress) {
+          onClose?.();
+        }
+      }}
+      testID={testId}
+      accessibilityLabel={accessibilityLabel}
+    >
       <Pressable
         style={[styles.overlay, overlayStyle]}
-        onPress={onCloseOVerlay}
+        onPress={onCloseOverlay}
+        testID={testId ? `${testId}-backdrop` : undefined}
+        accessibilityLabel={accessibilityLabel}
       />
 
       {type === "center" ? (
